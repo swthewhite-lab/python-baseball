@@ -1,19 +1,17 @@
 import random
 
 def player_input() :
-    while True :
-        player_number = input("3자리 숫자를 입력하세요: ")
-        if len(player_number) != 3 or not player_number.isdigit():
-            print("입력은 3자리 숫자여야 합니다.")
-            continue
-        elif len(set(player_number)) != 3:
-            print("입력 값의 각 자리는 서로 달라야 합니다.")
-            continue
-        break
+
+    player_number = input("숫자를 입력해주세요: ")
+    if len(player_number) != 3 or not player_number.isdigit():
+        raise ValueError("입력은 3자리 숫자여야 합니다.")
+            
+    elif len(set(player_number)) != 3:
+        raise ValueError("입력 값의 각 자리는 서로 달라야 합니다.")
     return player_number
 
 
-def game_comp(player_number) :
+def game_comp(com_number, player_number) :
     strike, ball, index = 0, 0, 0
   
     for i in com_number :
@@ -25,31 +23,36 @@ def game_comp(player_number) :
     return strike, ball
 
 
-def game_print() :
+def game_print(com_number) :
     while True:
         number = player_input()
-        strike, ball = game_comp(number)
-        print(strike, "스트라이크", " / ", ball, "볼")
-
-        if strike == 3 :
-            print("축하합니다! 숫자를 모두 맞추셨습니다.")
+        strike, ball = game_comp(com_number, number)
+        if strike==0 and ball==0:
+            print("낫싱")
+            continue
+        elif strike == 3 :
+            print(strike,"스트라이크")
+            print("3개의 숫자를 모두 맞히셨습니다! 게임 종료")
             break
         else:
+            print(ball,"볼"," ",strike,"스트라이크")
             continue
         
+def main(): 
+    while True :
+        com_number = random.sample(range(1,10),3)
+        print("숫자 야구 게임을 시작합니다.")
+        game_print(com_number)
     
-while True :
-    com_number = random.sample(range(1,10),3)
-    print("숫자 야구 게임을 시작합니다.")
-    game_print()
-  
-    while True:
-        result = input("게임을 다시 시작하려면 1, 완전히 종료하려면 2를 입력하세요: ")
+        
+        result = input("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.")
         if result == '1':
-            print("게임을 다시 시작합니다.")
-            break  # 이곳에서 안쪽 while 문을 종료하고 게임을 다시 시작
+            main()
         elif result == '2':
             print("게임을 종료합니다.")
-            exit()  # 프로그램을 종료
+            exit()
         else:
-            print("잘못된 입력입니다. 1 또는 2를 입력하세요.")
+            raise ValueError("잘못된 입력입니다. 1 또는 2를 입력하세요.")
+            
+if __name__ == "__main__":
+    main()
