@@ -11,13 +11,13 @@ def main():
         ran_numbers = random.sample(range(1, 10), 3)
 
         def player_input(player_number) :
-                
-            if len(player_number) != 3 or not player_number.isdigit():
-                raise ValueError("입력은 3자리 숫자여야 합니다.")
-            
-            if len(set(player_number)) != 3:
-                raise ValueError("입력 값의 각 자리는 서로 달라야 합니다.")
-                
+            while True:    
+                if len(player_number) != 3 or not player_number.isdigit():
+                    raise ValueError("입력은 3자리 숫자여야 합니다.")
+                    continue
+                if len(set(player_number)) != 3:
+                    raise ValueError("입력 값의 각 자리는 서로 달라야 합니다.")
+                    continue
             return True
 
         def num_comparison(player_number,com_number) :
