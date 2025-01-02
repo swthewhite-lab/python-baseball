@@ -47,6 +47,7 @@ def main():
         result = input("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.")
         if result == '1':
             main()
+            return
         elif result == '2':
             print("게임을 종료합니다.")
             return
