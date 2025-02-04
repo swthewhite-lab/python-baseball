@@ -1,8 +1,9 @@
+import random
 def main():
-    """
-    프로그램의 진입점 함수.
-    여기에서 전체 프로그램 로직을 시작합니다.
-    """
+    computer = random.sample(range(1, 10), 3)
+    
+    
+    
     # 프로그램의 메인 로직을 여기에 구현
 
 if __name__ == "__main__":
