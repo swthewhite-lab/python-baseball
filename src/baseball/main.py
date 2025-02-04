@@ -1,9 +1,8 @@
-import random
-
-def randnumber():
-    return random.sample(range(1, 10), 3)  
-
 def main():
+    import random
+
+    def randnumber():
+        return random.sample(range(1, 10), 3)  
     while True:
         arr = randnumber()
 
