@@ -20,4 +20,4 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: swthewhite-lab/python-baseball
+          slug: ${{ github.repository }}
