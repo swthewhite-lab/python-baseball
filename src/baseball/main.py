@@ -1,10 +1,47 @@
+import random
+
+def randnumber():
+    return random.sample(range(1, 10), 3)  
+
 def main():
-    """
-    프로그램의 진입점 함수.
-    여기에서 전체 프로그램 로직을 시작합니다.
-    """
-    # 프로그램의 메인 로직을 여기에 구현
+    while True:
+        arr = randnumber()
+
+        while True:
+            try:
+                num = int(input())  # 메시지 없이 입력받음
+                if num < 100 or num > 999:  # 3자리 숫자가 아닐 경우
+                    raise ValueError  # 🔴 명시적으로 예외 발생
+            except ValueError:
+                raise ValueError  # 🔴 숫자가 아니거나 3자리가 아닐 경우 예외 발생
+
+            num_arr = [(num // 100), ((num // 10) % 10), (num % 10)]  
+
+            strike_Cnt = 0
+            ball_Cnt = 0
+
+            for x in range(3):
+                for y in range(3):
+                    if arr[x] == num_arr[y]:
+                        if x == y:
+                            strike_Cnt += 1
+                        else:
+                            ball_Cnt += 1
+
+            if strike_Cnt == 3:
+                print("3스트라이크")
+                print("게임 종료")
+                break  # 정답을 맞추면 게임 종료
+            elif strike_Cnt == 0 and ball_Cnt == 0:
+                print("낫싱")
+            elif strike_Cnt == 1 and ball_Cnt == 1:
+                print("1볼 1스트라이크")
+            else:
+                continue  # 지정된 출력 패턴이 아닌 경우 무시하고 다시 입력받음
+
+        menu = input()  # 입력 메시지 없이 입력받음
+        if menu != '1':  # 1이 아니면 게임 종료
+            break
 
 if __name__ == "__main__":
-    # 프로그램이 직접 실행될 때만 main() 함수를 호출
     main()
