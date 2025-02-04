@@ -35,17 +35,25 @@ def loop_check(com):
     if result_check_input != "3스트라이크":
         loop_check(com)
 
+def restart_baseball():
+    print("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.")
+    user_key = int(input())
+    return user_key
+
 def main():
     """
     프로그램의 진입점 함수.
     여기에서 전체 프로그램 로직을 시작합니다.
     """
     # 프로그램의 메인 로직을 여기에 구현
+    restart = 1
     print("숫자 야구 게임을 시작합니다.")
-    computer = make_computer_num()
-    print(computer)
-    loop_check(computer)
-    print("3개의 숫자를 모두 맞히셨습니다! 게임 종료")
+    while restart == 1:
+        computer = make_computer_num()
+        print(computer)
+        loop_check(computer)
+        print("3개의 숫자를 모두 맞히셨습니다! 게임 종료")
+        restart = restart_baseball()
 
 if __name__ == "__main__":
     # 프로그램이 직접 실행될 때만 main() 함수를 호출
