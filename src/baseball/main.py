@@ -7,8 +7,12 @@ def same_num_check(check_array):    # list에서 중복되는 수를 인식하�
     return 1
 
 def validate_input(compare_array, want_len):    # 잘못된 값을 입력한 경우 ValueError가 발생하여 프로그램을 종료하는 기능 함수
-    if (len(compare_array) != want_len) or (0 in compare_array) or (same_num_check(compare_array) == 0):    # 플레이어가 입력한 값이 예상되는 값의 길이가 아니거나, 0이 포함되거나, 중복되는 수가 입력되어도 예외 처리
-        raise ValueError
+    if (len(compare_array) != want_len):    # 플레이어가 입력한 값이 예상되는 값의 길이가 아니거나, 0이 포함되거나, 중복되는 수가 입력되어도 예외 처리
+        raise ValueError("3개의 숫자를 입력해주세요.")
+    elif (0 in compare_array):
+        raise ValueError("1 ~ 9의 숫자만 입력해주세요.")
+    elif (same_num_check(compare_array) == 0):
+        raise ValueError("중복되는 수가 있습니다.")
     
 def make_computer_num():    # random 모듈을 사용하여 임의의 수 생성하는 함수 (요구사항)
     computer = random.sample(range(1, 10), 3)    # basecode
@@ -40,22 +44,24 @@ def check_input(get, com):  # 플레이어가 입력한 숫자에 대한 결과�
         return "{0}볼 {1}스트라이크".format(ball, strike)
     
 def loop_check(com):    # 1에서 3까지의 과정을 반복해 3개의 숫자를 모두 맞히면 게임이 종료되는 기능 함수
-    get = player_input()
-    result_check_input = check_input(get, com)
-    print(result_check_input)
-    if result_check_input == "3스트라이크": # check_input()의 결과가 "3스트라이크"일 경우 게임을 종료하고, 아닐 경우 다시 loop_check() 수해
-        print("3개의 숫자를 모두 맞히셨습니다! 게임 종료")
-        return 0
-    else:
-        loop_check(com)
+    while True:
+        get = player_input()
+        result_check_input = check_input(get, com)
+        print(result_check_input)
+        if result_check_input == "3스트라이크": # check_input()의 결과가 "3스트라이크"일 경우 게임을 종료하고, 아닐 경우 다시 loop_check() 수해
+            print("3개의 숫자를 모두 맞히셨습니다! 게임 종료")
+            return 0
 
 def restart_baseball(): # 게임 종료 후 '1' 입력시 다시 시작, '2' 입력시 완전히 종료하는 기능 함수
     print("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.")
-    user_key = int(input())
-    if user_key in [1, 2]:
-        return user_key
-    else:    # 잘못된 값을 입력할 경우 'ValueError'를 발생
-        raise ValueError
+    try:
+        user_key = int(input())
+        if user_key in [1, 2]:
+            return user_key
+        else:    # 잘못된 값을 입력할 경우 'ValueError'를 발생
+            raise ValueError("1 또는 2만 입력 가능합니다")
+    except ValueError:
+        raise ValueError("올바른 숫자를 입력해주세요 (1 또는 2)")
 
 def main():
     """
