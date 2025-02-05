@@ -12,7 +12,7 @@ def validate_input(compare_array, want_len):    # 잘못된 값을 입력한 경
         raise ValueError
     
 def make_computer_num():    # random 모듈을 사용하여 임의의 수 생성하는 함수 (요구사항)
-    computer = random.sample(range(1, 9), 3)    # basecode
+    computer = random.sample(range(1, 10), 3)    # basecode
     return computer
 
 def player_input(): # 플레이어에게 3개의 숫자 입력 받는 기능 함수
