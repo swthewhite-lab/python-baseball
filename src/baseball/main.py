@@ -4,8 +4,7 @@ def same_num_check(check_array):    # list에서 중복되는 수를 인식하�
     for i in check_array:
         if check_array.count(i) != 1:
             return 0
-        else:
-            return 1
+    return 1
 
 def validate_input(compare_array, want_len):    # 잘못된 값을 입력한 경우 ValueError가 발생하여 프로그램을 종료하는 기능 함수
     if (len(compare_array) != want_len) or (0 in compare_array) or (same_num_check(compare_array) == 0):    # 플레이어가 입력한 값이 예상되는 값의 길이가 아니거나, 0이 포함되거나, 중복되는 수가 입력되어도 예외 처리
