@@ -5,10 +5,17 @@ def same_num_check(check_array):
     리스트에서 중복된 숫자가 있는지 확인하는 함수.
     중복된 숫자가 있으면 1을 반환하고, 없으면 0을 반환.
     """
-    for i in check_array:
-        if check_array.count(i) != 1:
-            return 1
-    return 0
+    return len(set(check_array)) != len(check_array)
+
+def is_number (Data):
+    """
+    Data가 숫자인지 확인하는 함수.
+    숫자가 아니면 ValueError를 발생시킴.
+    """
+    try:
+        int(Data)  # Data가 int 형식인지 확인
+    except ValueError:
+        raise ValueError("숫자만 입력해주세요.")  # 숫자가 아닌 값 입력시 예외 처리
 
 def validate_input(Data, Criteria):
     """
@@ -17,13 +24,10 @@ def validate_input(Data, Criteria):
     - Criteria: 예상하는 값의 조건 (정수 또는 리스트 형식()
     잘못된 값이 입력되면 ValueError를 발생시킴.
     """
-    try:
-        int(Data)  # Data가 int 형식인지 확인
-    except ValueError as e:
-        if "invalid literal for int()" in str(e):  # int로 변환할 수 없는 값일 경우
-            raise ValueError("숫자만 입력해주세요.")  # 숫자가 아닌 값 입력시 예외 처리
-        
-    if type(Criteria) == int:  # Criteria가 int일 경우, player_input()에서 사용
+    # 숫자 확인
+    is_number(Data)
+
+    if isinstance(Criteria, int):  # Criteria가 int일 경우, player_input()에서 사용
         compare_array = list(map(int, Data))  # Data를 정수형 리스트로 변환
 
         # 플레이어가 입력한 값이 예상되는 값의 길이가 아닐 경우 예외 처리
@@ -40,7 +44,7 @@ def validate_input(Data, Criteria):
         
         return compare_array  # 입력이 정상이면 정수 리스트 변환
     
-    elif type(Criteria) == list:  # Criteria가 list일 경우, restart_baseball()에서 사용
+    elif isinstance(Criteria, list):  # Criteria가 list일 경우, restart_baseball()에서 사용
         # Data가 Criteria에 포함되지 않은 값일 경우 예외 처리
         if int(Data) not in Criteria:
             raise ValueError("숫자 1 또는 2만 입력해주세요.")
@@ -69,24 +73,36 @@ def check_input(get, com):
     - com: 컴퓨터가 생성한 숫자 리스트
     결과에 따라 '스트라이크', '볼', '낫싱'을 반환.
     """
-    ball, strike = 0, 0
-    for i in range(0,3):
+    ball, strike = 0, 0  # 볼과 스트라이크를 카운트할 변수 초기화
+
+    for i in range(0,3):  # 입력된 숫자와 컴퓨터가 생성한 숫자를 비교
         if get[i] == com[i]:  # 숫자와 위치가 맞으면 스트라이크
             strike += 1
         elif get[i] in com:  # 숫자는 맞지만 위치가 다르면 볼
             ball += 1
         else:
-            continue
+            continue  # 숫자도 위치도 맞지 않으면 아무것도 하지 않음
+
+    # 스트라이크가 3이면 3스트라이크 반환
     if strike == 3:
-        return "3스트라이크"  # 3개의 숫자가 모두 맞으면 3스트라이크
+        return "3스트라이크"
+    
+    # 스트라이크와 볼이 모두 없으면 낫싱 반환
     elif ball + strike == 0:
-        return "낫싱"  # 맞는 숫자가 없으면 낫싱
-    elif ball == 0:
-        return "{0}스트라이크".format(strike)  # 볼은 없고 스트라이크만 있는 경우
-    elif strike == 0:
-        return "{0}볼".format(ball)  # 스트라이크는 없고 볼만 있는 경우
-    else:
-        return "{0}볼 {1}스트라이크".format(ball, strike)  # 볼과 스트라이크가 모두 있는 경우
+        return "낫싱"
+    
+    result = []  # 결과를 저장할 리스트
+
+    # 볼이 하나 이상 있으면 볼 정보 추가
+    if ball > 0:
+        result.append(f"{ball}볼")
+
+    # 스트라이크가 하나 이상 있으면 스트라이크 정보 추가
+    if strike > 0:
+        result.append(f"{strike}스트라이크")
+
+    # 볼과 스트라이크가 있을 경우 공백으로 구분해서 반환
+    return " ".join(result)
     
 def loop_check(com):
     """
