@@ -27,7 +27,6 @@ def main():
 
         strike=0
         ball=0
-        l=[]
         computer=randomnumber()
 
 
@@ -39,27 +38,31 @@ def main():
             
             strike=0
             ball=0
-            l=[]
+            
             a=input('숫자를 입력해주세요 :')
             
-            if len(a) !=3 :
-                raise ValueError
-                    
-            for r in range(len(a)) :
-                l.append(int(a[r]))
+            if len(a) != 3:
+                raise ValueError("3자리 숫자를 입력해주세요")
             
-            for i in range(len(computer)-1,-1,-1) :
-                if computer[i] == l[i] :
-                    strike+=1
-                    computer.pop(i)
-                    l.pop(i)
+            if not a.isdigit():
+                raise ValueError("숫자만 입력 가능합니다")
                     
+            numbers = [int(x) for x in a]
+            if len(set(numbers)) != 3:
+                raise ValueError("중복되지 않은 숫자를 입력해주세요")
+                
+            if not all(1 <= x <= 9 for x in numbers):
+                raise ValueError("1부터 9까지의 숫자만 입력 가능합니다")
                     
+            user_numbers = numbers
             
-            for k in range(len(l)) :
-                if l[k] in computer :
-                    ball+=1
+            # 스트라이크 계산
+            strike = sum(1 for i in range(3) if user_numbers[i] == computer[i])
             
+            # 볼 계산
+            ball = sum(1 for i in range(3) for j in range(3)
+                      if i != j and user_numbers[i] == computer[j])
+
             computer=computer1  
 
             if ball==0 and strike ==0 :
@@ -75,9 +78,12 @@ def main():
                 onlystrike(strike)
             elif ball!=0 and strike!=0 :
                 ballandstrike(ball,strike)
-        press=input()
-        if press!='1':
-            break
+        pick()
+        press = input().strip()
+        if press not in ['1', '2']:
+            raise ValueError("1 또는 2만 입력 가능합니다")
+        if press == '2':
+             break
 
    
     
