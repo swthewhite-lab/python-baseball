@@ -14,15 +14,20 @@ def is_number (Data):
     """
     try:
         int(Data)  # Data가 int 형식인지 확인
-    except ValueError:
-        raise ValueError("숫자만 입력해주세요.")  # 숫자가 아닌 값 입력시 예외 처리
+    except ValueError as e:
+        raise ValueError("숫자만 입력해주세요.") from e  # 숫자가 아닌 값 입력시 예외 처리
 
 def validate_input(Data, Criteria):
     """
     사용자가 입력한 값을 검증하는 함수.
     - Data: 사용자가 입력한 값
-    - Criteria: 예상하는 값의 조건 (정수 또는 리스트 형식()
-    잘못된 값이 입력되면 ValueError를 발생시킴.
+    - Criteria: 예상하는 값의 조건 (정수 또는 리스트 형식)
+    다음과 같은 경우 ValueError를 발생시킴:
+    - 입력 값이 숫자가 아닌 경우
+    - 3개의 숫자가 아닌 경우
+    - 중복된 숫자가 포함된 경우
+    - 0이 포함된 경우
+    - 입력 값이 1 또는 2가 아닌 경우 (재시작 시)
     """
     # 숫자 확인
     is_number(Data)
@@ -93,13 +98,8 @@ def check_input(get, com):
     
     result = []  # 결과를 저장할 리스트
 
-    # 볼이 하나 이상 있으면 볼 정보 추가
-    if ball > 0:
-        result.append(f"{ball}볼")
-
-    # 스트라이크가 하나 이상 있으면 스트라이크 정보 추가
-    if strike > 0:
-        result.append(f"{strike}스트라이크")
+    result.extend([f"{ball}볼" for _ in [1] if ball > 0])  # 볼이 하나 이상 있으면 볼 정보 추가
+    result.extend([f"{strike}스트라이크" for _ in [1] if strike > 0])  # 스트라이크가 하나 이상 있으면 스트라이크 정보 추가
 
     # 볼과 스트라이크가 있을 경우 공백으로 구분해서 반환
     return " ".join(result)
